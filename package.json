@@ -1,8 +1,8 @@
 {
   "name": "lascss-intellisense",
-  "displayName": "lascss-intellisense",
+  "displayName": "lascss",
   "description": "VS Code IntelliSense for LASCSS utility classes with color details and variants.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "serdargoleli",
   "repository": {
     "type": "git",
@@ -15,7 +15,23 @@
     "Other",
     "Programming Languages"
   ],
-  "activationEvents": ["*"],
+  "activationEvents": [
+    "onLanguage:html",
+    "onLanguage:css",
+    "onLanguage:scss",
+    "onLanguage:sass",
+    "onLanguage:less",
+    "onLanguage:stylus",
+    "onLanguage:postcss",
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescriptreact",
+    "onLanguage:vue",
+    "onLanguage:svelte",
+    "onLanguage:astro",
+    "onLanguage:angular"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "configurationDefaults": {
