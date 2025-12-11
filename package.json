@@ -3,7 +3,7 @@
   "displayName": "lascss",
   "description": "VS Code IntelliSense for LASCSS utility classes with color details and variants.",
   "icon": "images/las-logo.png",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "serdargoleli",
   "repository": {
     "type": "git",
@@ -60,13 +60,7 @@
       "[vue]": {
         "editor.wordBasedSuggestions": false
       }
-    },
-    "commands": [
-      {
-        "command": "lascss-intellisense.helloWorld",
-        "title": "Hello World"
-      }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",
