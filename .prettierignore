@@ -1,0 +1,12 @@
+# Ignore artifacts:
+build
+dist
+node_modules
+coverage
+assets
+.git
+*.html
+*.md
+*.json
+*.yml
+*.yaml
