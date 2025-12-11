@@ -2,6 +2,9 @@
 
 VS Code IntelliSense for LASCSS utility classes with color details and variant support.
 
+## Demo
+![LASCSS IntelliSense demo](https://github.com/serdargoleli/las-intellisense/blob/main/images/demo.gif?raw=true)
+
 ## Features
 - IntelliSense for LASCSS classes and variants (`md:bg-red-500`, `hover:text-...`).
 - Color shades shown in detail (hex/rgb) with a small swatch preview.
@@ -9,10 +12,6 @@ VS Code IntelliSense for LASCSS utility classes with color details and variant s
 - Supports slash/bracket utilities (`w-1/2`, `bg-[var(--...)]`).
 - Languages: html, css, scss, sass, less, stylus, postcss, js/ts + react, vue, svelte, astro, angular (always available via Ctrl+Space).
 
-## Demo
-Add your gif here after setting a repository URL in `package.json` (Marketplace requires https):
-
-![LASCSS IntelliSense demo](https://github.com/serdargoleli/las-intellisense/blob/main/images/demo.gif?raw=true)
 
 ## Installation
 1) Ensure `lascss` is installed in your project (e.g., `pnpm add -D lascss`).  
