@@ -2,14 +2,15 @@
   "name": "lascss-intellisense",
   "displayName": "lascss",
   "description": "VS Code IntelliSense for LASCSS utility classes with color details and variants.",
-  "version": "1.0.1",
+  "icon": "images/las-logo.png",
+  "version": "1.0.3",
   "publisher": "serdargoleli",
   "repository": {
     "type": "git",
     "url": "https://github.com/serdargoleli/las-intellisense.git"
   },
   "engines": {
-    "vscode": "^1.107.0"
+    "vscode": "^1.100.0"
   },
   "categories": [
     "Other",
@@ -82,7 +83,7 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.107.0",
+    "@types/vscode": "^1.100.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
     "typescript-eslint": "^8.48.1",
