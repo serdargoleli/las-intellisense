@@ -146,8 +146,14 @@ export function activate(context: vscode.ExtensionContext) {
             item.sortText = `1-class-${c}`; // Variantlardan sonra gelsin
             item.preselect = true;
 
-            if (detailMap[c]) {
-              item.detail = detailMap[c];
+            const detail = detailMap[c];
+            if (detail) {
+              item.detail = detail;
+              const colorDoc = createColorDoc(detail);
+              if (colorDoc) {
+                item.kind = vscode.CompletionItemKind.Color;
+                item.documentation = colorDoc;
+              }
             }
             if (!item.detail) {
               item.detail = "LASCSS class";
@@ -168,3 +174,24 @@ export function activate(context: vscode.ExtensionContext) {
 
 // This method is called when your extension is deactivated
 export function deactivate() {}
+
+function createColorDoc(value: string): vscode.MarkdownString | undefined {
+  const color = value.trim();
+  const isHex = /^#?[0-9a-fA-F]{6}$/.test(color) || /^#?[0-9a-fA-F]{3}$/.test(color);
+  const isRgb = /^rgb\(/i.test(color) || /^[0-9.]+\s+[0-9.]+\s+[0-9.]+/.test(color);
+
+  if (!isHex && !isRgb) {
+    return undefined;
+  }
+
+  const hex = color.startsWith("#") ? color : color;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="16">
+    <rect width="32" height="16" rx="2" ry="2" fill="${hex}"/>
+  </svg>`;
+  const uri = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+
+  const md = new vscode.MarkdownString(`![color](${uri})\n\n\`${color}\``);
+  md.supportHtml = true;
+  md.isTrusted = true;
+  return md;
+}
