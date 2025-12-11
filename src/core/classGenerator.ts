@@ -1,7 +1,17 @@
+/**
+ * @description
+ * meta.min.css içindeki renk ve varyant bilgilerinden sadece class listesini üretir.
+ * (detay bilgisine ihtiyacın yoksa bu fonksiyonu kullan.)
+ */
 export function generateClasses(parsedMeta: Record<string, string>): string[] {
   return generateClassesWithDetails(parsedMeta).classes;
 }
 
+/**
+ * @description
+ * meta.min.css içindeki renk/varyant bilgilerini okuyup class + detail map üretir.
+ * detailMap: sınıf adı -> renk/ilgili açıklama (hex/rgb veya deklarasyon)
+ */
 export function generateClassesWithDetails(parsedMeta: Record<string, string>): {
   classes: string[];
   detailMap: Record<string, string>;
@@ -65,6 +75,9 @@ export function generateClassesWithDetails(parsedMeta: Record<string, string>): 
     .filter(k => k.startsWith("las-breakpoint-"))
     .map(k => k.replace("las-breakpoint-", ""));
   const defaultBreakpoints = ["sm", "md", "lg", "xl", "2xl"];
+  const variantNames = Array.from(
+    new Set<string>([...variants.map(v => v.name), ...breakpoints, ...defaultBreakpoints]),
+  );
 
   // 5️⃣ Class listesi oluştur
   const classes: string[] = [];
@@ -94,22 +107,19 @@ export function generateClassesWithDetails(parsedMeta: Record<string, string>): 
     }
   }
 
-  // Variant ekleme
+  // Variant ekleme (hover:, md:, vb.)
   const finalClasses: string[] = [];
-  for (const variant of variants) {
+  for (const variantName of variantNames) {
     for (const c of classes) {
-      finalClasses.push(`${variant.name}:${c}`);
+      finalClasses.push(`${variantName}:${c}`);
       if (detailMap[c]) {
-        detailMap[`${variant.name}:${c}`] = detailMap[c];
+        detailMap[`${variantName}:${c}`] = detailMap[c];
       }
     }
   }
 
   // Tüm sınıfları birleştir
-  const variantNames = new Set<string>(variants.map(v => v.name));
-  [...breakpoints, ...defaultBreakpoints].forEach(bp => variantNames.add(bp));
-
-  return { classes: [...classes, ...finalClasses], detailMap, variants: Array.from(variantNames) };
+  return { classes: [...classes, ...finalClasses], detailMap, variants: variantNames };
 }
 
 function calculateShade(baseColor: string, shade: number): string {
@@ -129,6 +139,12 @@ function calculateShade(baseColor: string, shade: number): string {
   return mixColors(baseColor, black, blackPercent);
 }
 
+/**
+ * @description İki rengi yüzde ağırlıkla karıştırır.
+ * @param color1 Ana renk
+ * @param color2 Karışacak renk (beyaz/siyah)
+ * @param weight color2 ağırlığı (0-100)
+ */
 function mixColors(color1: string, color2: string, weight: number): string {
   const c1 = colorToRgb(color1);
   const c2 = colorToRgb(color2);
@@ -205,6 +221,9 @@ function colorToRgb(value: string) {
   return null;
 }
 
+/**
+ * @description var(--color, fallback) ifadelerini çözümler, meta içindeki değerle değiştirir.
+ */
 function resolveVar(value: string, meta: Record<string, string>, depth = 0): string {
   if (!value || depth > 5) {
     return value;

@@ -1,7 +1,7 @@
 import * as fs from "fs";
 
 /**
- * meta.min.css dosyasındaki :root CSS değişkenlerini parse eder
+ * meta.min.css dosyasındaki :root CSS değişkenlerini parse eder.
  * @param filePath meta.min.css dosyasının tam yolu
  * @returns {Record<string, string>} değişken adı -> değer objesi
  */
@@ -23,7 +23,7 @@ export function parseMetaVars(filePath: string): Record<string, string> {
 }
 
 /**
- * utility.min.css içindeki class isimlerini ve ilk deklarasyonlarını parse eder
+ * utility.min.css içindeki class isimlerini ve ilk deklarasyonlarını parse eder.
  * @param filePath utility.min.css tam yolu
  * @returns Record<className, declaration>
  */
@@ -33,12 +33,13 @@ export function parseUtilityClasses(filePath: string): Record<string, string> {
   }
 
   const content = fs.readFileSync(filePath, "utf-8");
-  const regex = /\.([a-zA-Z0-9\-\[\]]+)\{([^}]*)\}/g;
+  // Slash ve escape karakteri (\) içeren utility class'larını da yakalamak için karakter seti genişletildi
+  const regex = /\.([a-zA-Z0-9\\\/\-\[\]:]+)\{([^}]*)\}/g;
   const classes: Record<string, string> = {};
   let match: RegExpExecArray | null;
 
   while ((match = regex.exec(content)) !== null) {
-    const className = match[1];
+    const className = match[1].replace(/\\\//g, "/"); // w-1\/2 -> w-1/2
     const body = match[2] || "";
     const firstDeclaration = body.split(";").map(s => s.trim()).filter(Boolean)[0];
     classes[className] = firstDeclaration ? `${firstDeclaration};` : body;
